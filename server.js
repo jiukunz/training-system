@@ -7,62 +7,98 @@ var mongoose = require('mongoose'); 					// mongoose for mongodb
 
 // configuration =================
 
-mongoose.connect('mongodb://localhost/baiban'); 	// connect to mongoDB database on modulus.io
+mongoose.connect('mongodb://localhost/customers'); 	// connect to mongoDB database on modulus.io
 
 app.configure(function () {
-    app.use(express.static(__dirname + '/public')); 		// set the static files location /public/img will be /img for users
+    app.use(express.static(__dirname + '/public/')); 		// set the static files location /public/img will be /img for users
     app.use(express.logger('dev')); 						// log every request to the console
     app.use(express.bodyParser()); 							// pull information from html in POST
     app.use(express.methodOverride()); 						// simulate DELETE and PUT
 });
 
 
-var Todo = mongoose.model('Todo', {
-    text: String
+var Customer = mongoose.model('Customer', {
+    id: Number,
+    firstName: String,
+    lastName: String,
+    address: String,
+    city: String,
+    order:[Order]
 });
 
+var Order = mongoose.model('Order', {
+    product: String,
+    price: Number,
+    quantity: Number,
+    orderTotal: Number
+})
+
+/*
+id: 1, firstName: 'Lee', lastName: 'Carroll', address: '1234 Anywhere St.', city: 'Phoenix',
+            orders: [
+                { product: 'Basket', price: 29.99, quantity: 1, orderTotal: 29.99 },
+                { product: 'Yarn', price: 9.99, quantity: 1, orderTotal: 39.96 },
+                { product: 'Needes', price: 5.99, quantity: 1, orderTotal: 5.99 }
+            ]
+            */
 // routes
 
-app.get('/api/todos', function (req, res) {
-    Todo.find(function (err, todos) {
+app.get('/api/customers', function (req, res) {
+    Customer.find(function (err, customers) {
         if (err)
             res.send(err)
-        res.json(todos);
+        res.json(customers);
     });
 });
 
-app.post('/api/todos', function (req, res) {
-    Todo.create({
-        text: req.body.text,
-        done: false
-    }, function (err, todo) {
-        if (err)
-            res.send(err);
-        Todo.find(function (err, todos) {
-            if (err)
-                res.send(err)
-            res.json(todos);
-        });
-    });
-});
-
-app.delete('/api/todos/:todo_id', function (req, res) {
-    Todo.remove({
-        _id: req.params.todo_id
+app.post('/api/customers', function (req, res) {
+    Customer.create({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        city: req.body.city
     }, function (err, todo) {
         if (err){
             res.send(err);
-        }
-        Todo.find(function (err, todos) {
+        }            
+        Customer.find(function (err, customers) {
             if (err)
                 res.send(err)
-            res.json(todos);
+            res.json(customers);
         });
+    });
+});
+
+app.delete('/api/customers/:id', function (req, res) {
+    var id = req.params.id;
+    Customer.remove({
+        '_id': id
+    }, function (err, customer) {
+        if (err){
+            res.send(err);
+        }
+        Customer.find(function (err, customers) {
+            if (err)
+                res.send(err)
+            res.json(customers);
+        });
+    });
+});
+
+app.get('/api/customers/:id', function (req, res) {
+    var id = req.params.id;
+    Customer.find({
+        '_id': id
+    }, function (err, customer) {
+        if (err){
+            res.send(err);
+        }
+        res.json(customer[0]);
     });
 });
 
 app.get('*', function(req, res) {
-    res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+    // res.send("hello");
+    res.sendfile('./public/CustomerManagementApp.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
 
 // listen (start app with node server.js) ======================================
