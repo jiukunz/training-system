@@ -86,6 +86,26 @@ app.controller('CustomerOrdersController', function ($scope, $http, $routeParams
             console.log('Error: ' + data);
         });
 
+    $scope.insertOrder = function () {
+        console.log("running");
+        var product = $scope.newOrder.product;
+        var price = $scope.newOrder.price;
+        var quantity = $scope.newOrder.quantity;
+        var order = {'product': product, 'price':price, 'quantity': quantity};
+
+        $http.post('/api/customers/' + customerID + '/order/', {'order': order})
+            .success(function (data) {
+                $scope.customer = data;
+            })
+            .error(function (data) {
+                console.log('Error: ' + data);
+            });
+        // customersService.insertCustomer(firstName, lastName, city);
+        $scope.newOrder.product = '';
+        $scope.newOrder.price = '';
+        $scope.newOrder.quantity = '';
+    };
+
 });
 
 //This controller retrieves data from the customersService and associates it with the $scope

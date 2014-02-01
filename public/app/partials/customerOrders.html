@@ -3,6 +3,27 @@
         <header>
             <h3>Customer Orders</h3>
         </header>
+        <div class="row">
+            <div class="span3">
+                Product:
+                <br />
+                <input data-ng-model="newOrder.product" type="text" placeholder="Product">
+            </div>
+            <div class="span3">
+                Price:
+                <br />
+                <input data-ng-model="newOrder.price" type="text" placeholder="Price">
+            </div>
+            <div class="span6">
+                Quantity:
+                <br />
+                <input data-ng-model="newOrder.quantity" type="text" placeholder="Quantity">
+                <button id="submitCustomer" class="btn btn-primary" type="button" 
+                    data-ng-disabled="!newOrder.product || !newOrder.price || !newOrder.quantity" 
+                    data-ng-click="insertOrder()">Add Order</button>
+            </div>
+        </div>
+
         <div>
             <div class="row">
                 <div class="span12">
@@ -22,3 +43,4 @@
         </div>
     </div>
 </div>
+

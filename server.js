@@ -23,7 +23,7 @@ var Customer = mongoose.model('Customer', {
     lastName: String,
     address: String,
     city: String,
-    order:[Order]
+    orders:[Order]
 });
 
 var Order = mongoose.model('Order', {
@@ -68,6 +68,20 @@ app.post('/api/customers', function (req, res) {
     });
 });
 
+app.post('/api/customers/:customerID/order', function(req, res) {
+    var id = req.params.customerID;
+    var order = req.body.order;
+    Customer.findById(id, function (err, customer) {
+        if (err){
+            res.send(err);
+        } 
+        customer.orders.push(order);
+        customer.save();
+        res.json(customer);
+    });
+
+});
+
 app.delete('/api/customers/:id', function (req, res) {
     var id = req.params.id;
     Customer.remove({
@@ -86,13 +100,11 @@ app.delete('/api/customers/:id', function (req, res) {
 
 app.get('/api/customers/:id', function (req, res) {
     var id = req.params.id;
-    Customer.find({
-        '_id': id
-    }, function (err, customer) {
+    Customer.findById(id, function (err, customer) {
         if (err){
             res.send(err);
         }
-        res.json(customer[0]);
+        res.json(customer);
     });
 });
 
