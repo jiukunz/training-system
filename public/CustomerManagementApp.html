@@ -2,9 +2,9 @@
 <html data-ng-app="customersApp">
 <head>
     <title>Customer Manager</title>
-    <link href="Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="Content/bootstrap-responsive.min.css" rel="stylesheet" />
-    <link href="Content/customerManagementStyles.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="css/customerManagementStyles.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -12,7 +12,7 @@
         <div class="navbar-inner">
             <div class="container">
                 <a class="brand " href="#/">
-                    <img src="Content/Images/people.png" alt="logo"> Customer Manager
+                    <img src="imgs/people.png" alt="logo"> Customer Manager
                 </a>
                 <ul class="nav nav-pills" data-ng-controller="NavbarController">
                     <li data-ng-class="{'active':getClass('/customers')}"><a href="#/customers">Customers</a></li>
@@ -50,11 +50,11 @@
     </div>
 
     <!-- Vendor Libs: jQuery only used for Bootstrap functionality -->
-    <script src="Scripts/angular.js"></script>
-    <script src="Scripts/jquery.min.js"></script>
+    <script src="libs/angular.js"></script>
+    <script src="libs/jquery.min.js"></script>
 
     <!-- UI Libs -->
-    <script src="Scripts/bootstrap.js"></script>
+    <script src="libs/bootstrap.js"></script>
 
 
     <!-- App libs -->
