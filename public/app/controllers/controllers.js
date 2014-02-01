@@ -91,7 +91,8 @@ app.controller('CustomerOrdersController', function ($scope, $http, $routeParams
         var product = $scope.newOrder.product;
         var price = $scope.newOrder.price;
         var quantity = $scope.newOrder.quantity;
-        var order = {'product': product, 'price':price, 'quantity': quantity};
+        var orderTotal = $scope.newOrder.orderTotal;
+        var order = {'product': product, 'price':price, 'quantity': quantity, 'orderTotal': orderTotal};
 
         $http.post('/api/customers/' + customerID + '/order/', {'order': order})
             .success(function (data) {
@@ -104,6 +105,8 @@ app.controller('CustomerOrdersController', function ($scope, $http, $routeParams
         $scope.newOrder.product = '';
         $scope.newOrder.price = '';
         $scope.newOrder.quantity = '';
+        $scope.newOrder.orderTotal = '';
+
     };
 
 });
