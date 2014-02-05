@@ -4,6 +4,9 @@
 var express = require('express');
 var app = express(); 								// create our app w/ express
 var mongoose = require('mongoose'); 					// mongoose for mongodb
+var passport = require('passport')
+    , LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash')
 
 // configuration =================
 
@@ -13,9 +16,64 @@ app.configure(function () {
     app.use(express.static(__dirname + '/public/')); 		// set the static files location /public/img will be /img for users
     app.use(express.logger('dev')); 						// log every request to the console
     app.use(express.bodyParser()); 							// pull information from html in POST
-    app.use(express.methodOverride()); 						// simulate DELETE and PUT
+    app.use(express.methodOverride());
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: 'keyboard cat' }));// simulate DELETE and PUT
+    app.use(passport.initialize());
+    app.use(passport.session());
+    app.use(flash());
 });
 
+var users = [
+    { id: 1, username: 'jiqing', password: '846315ea' }
+    , { id: 2, username: 'joe', password: 'birthday' }
+];
+
+function findByUsername(username, fn) {
+    for (var i = 0, len = users.length; i < len; i++) {
+        var user = users[i];
+        if (user.username === username) {
+            return fn(null, user);
+        }
+    }
+    return fn(null, null);
+}
+
+function findById(id, fn) {
+    var idx = id - 1;
+    if (users[idx]) {
+        fn(null, users[idx]);
+    } else {
+        fn(new Error('User ' + id + ' does not exist'));
+    }
+}
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        process.nextTick(function () {
+            findByUsername(username, function(err, user) {
+                if (err) { return done(err); }
+                if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
+                if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
+                return done(null, user);
+            })
+        });
+    }
+));
+
+passport.serializeUser(function(user, done) {
+    console.log("serializeUser");
+    console.log(user.id);
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    console.log("deserializeUser");
+
+    findById(id, function (err, user) {
+        done(err, user);
+    });
+});
 
 var Member = mongoose.model('Member', {
     id: String,
@@ -139,9 +197,28 @@ app.get('/api/members/:id', function (req, res) {
     });
 });
 //
-app.get('*', function(req, res) {
-    // res.send("hello");
+app.get('/login', function(req,res){
+    res.sendfile('./public/login.html');
+});
+
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) { return next(); }
+    res.redirect('/login')
+}
+
+app.post('/login',
+    passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
+    function(req, res) {
+        res.redirect('/');
+    });
+
+app.get('/', ensureAuthenticated, function(req, res) {
     res.sendfile('./public/MemberManagementApp.html'); // load the single view file (angular will handle the page changes on the front-end)
+});
+
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
 });
 
 // listen (start app with node server.js) ======================================

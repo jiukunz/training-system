@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html data-ng-app="membersApp">
+<head>
+    <title>大明宫员工培训档案管理系统</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand " href="/">
+                <img src="imgs/people.png" alt="logo"> 大明宫员工培训档案管理系统
+            </a>
+
+        </div>
+    </div>
+</div>
+<div class="view">
+    <div class="container">
+        <form action="/login" method="post">
+            <div class="span12">
+                <label>用户名:</label>
+                <input type="text" name="username"/>
+            </div>
+            <div class="span12">
+                <label>密码:</label>
+                <input type="password" name="password"/>
+            </div>
+            <div class="span12 ">
+                <input class="btn btn-primary" type="submit" value="登陆"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
