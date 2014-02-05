@@ -87,3 +87,8 @@ footer {
 .close {
     opacity: 1.0;
 }
+
+#search{
+    margin-left: 29px;
+    width: 500px;
+}

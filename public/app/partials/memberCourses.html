@@ -1,33 +1,41 @@
 ﻿<div class="memberCourses view">
     <div class="container">
         <header>
-            <h3>Customer Courses</h3>
+            <h3>培训课程</h3>
         </header>
         <div class="row">
             <div class="span3">
-                Product:
+                内容:
                 <br />
-                <input data-ng-model="newCourse.product" type="text" placeholder="Product">
+                <input data-ng-model="newCourse.topic" type="text" placeholder="内容">
             </div>
             <div class="span3">
-                Price:
+                课时:
                 <br />
-                <input data-ng-model="newCourse.price" type="text" placeholder="Price">
+                <input data-ng-model="newCourse.hours" type="text" placeholder="培训课时">
             </div>
-        </div>
-        <div class="row">
             <div class="span3">
-                CourseTotal:
+                类型:
                 <br />
-                <input data-ng-model="newCourse.courseTotal" type="text" placeholder="CourseTotal">
+                <input data-ng-model="newCourse.type" type="text" placeholder="培训类型">
+            </div>
+            <div class="span3">
+                部门:
+                <br />
+                <input data-ng-model="newCourse.instruction" type="text" placeholder="培训部门">
+            </div>
+            <div class="span3">
+                考核结果/学分:
+                <br />
+                <input data-ng-model="newCourse.score" type="text" placeholder="考核结果/学分">
             </div>
             <div class="span6">
-                Quantity:
+                时间:
                 <br />
-                <input data-ng-model="newCourse.quantity" type="text" placeholder="Quantity">
-                <button id="submitCustomer" class="btn btn-primary" type="button"
-                    data-ng-disabled="!newCourse.product || !newCourse.price || !newCourse.quantity"
-                    data-ng-click="insertCourse()">Add Course</button>
+                <input data-ng-model="newCourse.date" type="text" placeholder="时间">
+                <button id="submitMember" class="btn btn-primary" type="button"
+                        data-ng-disabled="!newCourse.date || !newCourse.topic || !newCourse.score"
+                        data-ng-click="insertCourse()">Add Course</button>
             </div>
         </div>
 
@@ -35,10 +43,22 @@
             <div class="row">
                 <div class="span12">
                     <div class="indent">
-                        <h4>Courses for {{ member.firstName + ' ' + member.lastName }}</h4>
-                        {{member.address}}
+                        <h4>{{ member.name }}的培训课程</h4>
+                        性别: {{member.gender}}
                         <br />
-                        {{member.city}}
+                        部门: {{member.apartment}}
+                        <br/>
+                        工作年限: {{member.workingYears}}
+                        <br />
+                        员工编号: {{member.id}}
+                        <br/>
+                        教育程度: {{member.education}}
+                        <br/>
+                        专业: {{member.major}}
+                        <br/>
+                        职位: {{member.job}}
+                        <br/>
+                        入职时间: {{member.startDate}}
                         <br /><br />
                     </div>
                 </div>                

@@ -1,10 +1,12 @@
-﻿<table class="table table-hover table-striped table-condensed table-bcourseed coursesTable" data-ng-controller="CourseChildController">
+﻿<table class="table table-hover table-striped table-condensed table-bordered coursesTable" data-ng-controller="CourseChildController">
     <thead>
         <tr>
-            <th data-ng-click="setCourse('product')">Product</th>
-            <th data-ng-click="setCourse('quantity')">Quantity</th>
-            <th data-ng-click="setCourse('price')">Unit Price</th>
-            <th data-ng-click="setCourse('courseTotal')">Total</th>
+            <th data-ng-click="setCourse('topic')">内容</th>
+            <th data-ng-click="setCourse('hours')">课时</th>
+            <th data-ng-click="setCourse('type')">类型</th>
+            <th data-ng-click="setCourse('instruction')">培训部门</th>
+            <th data-ng-click="setCourse('score')">学分</th>
+            <th data-ng-click="setCourse('date')">培训日期</th>
         </tr>
     </thead>
     <tbody>
@@ -13,26 +15,24 @@
                 <div class="text-center"><strong>No courses found</strong></div>
             </td>
         </tr>
-        <tr data-ng-repeat="course in member.courses | courseBy:courseby:reverse">
+        <tr data-ng-repeat="course in member.courses | orderBy:orderby:reverse">
             <td>
-                {{ course.product }}
+                {{ course.topic }}
             </td>
             <td>
-                {{ course.quantity }}
+                {{ course.hours }}
             </td>
             <td>
-                 {{ course.price | currency }}
+                 {{ course.type }}
             </td>
             <td>
-                {{ course.courseTotal | currency }}
-            </td>
-        </tr>
-        <tr class="info">
-            <td colspan="3">
-                &nbsp;
+                {{ course.instruction }}
             </td>
             <td>
-                <strong>{{ coursesTotal | currency }}</strong>
+                {{ course.score }}
+            </td>
+            <td>
+                {{ course.date }}
             </td>
         </tr>
     </tbody>

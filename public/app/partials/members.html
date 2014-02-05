@@ -50,16 +50,18 @@
                 <br />
                 <input data-ng-model="newMember.startDate" type="text" placeholder="入职时间">
                 <button id="submitMember" class="btn btn-primary" type="button"
-                    data-ng-disabled="!newMember.name"
+                    data-ng-disabled="!newMember.name || !newMember.gender || !newMember.id || !newMember.education || !newMember.apartment || !newMember.job"
                     data-ng-click="insertMember()">添加员工</button>
             </div>
-            <!--|| !newMember.gender || !newMember.id || !newMember.education || !newMember.apartment || !newMember.job"-->
         </div>
         <br /><br />
+
+        <header>
+            <h3>搜索</h3>
+        </header>
         <div class="row">
-            Filter:
             <br/>
-            <input data-ng-model="filterWord" type="text" placeholder="Filter">
+            <input id="search" data-ng-model="filterWord" type="text">
         </div>
         <br/><br/>
         <div>

@@ -88,32 +88,24 @@ app.controller('MembersController', function ($scope, $http) {
 //The $scope is bound to the course view
 app.controller('MemberCoursesController', function ($scope, $http, $routeParams) {
     $scope.member = [];
-    $scope.coursesTotal = 0.00;
-    
+
     var memberID = $routeParams.memberID;
     $http.get('/api/members/' + memberID)
         .success(function (data) {
             $scope.member = data;
-            if ($scope.member && $scope.member.courses) {
-                var total = 0.00;
-                for (var i = 0; i < $scope.member.courses.length; i++) {
-                    var course = $scope.member.courses[i];
-                    total += course.courseTotal;
-                }
-                $scope.coursesTotal = total;
-            }    
         })
         .error(function (data) {
             console.log('Error: ' + data);
         });
 
     $scope.insertCourse = function () {
-        console.log("running");
-        var product = $scope.newCourse.product;
-        var price = $scope.newCourse.price;
-        var quantity = $scope.newCourse.quantity;
-        var courseTotal = $scope.newCourse.courseTotal;
-        var course = {'product': product, 'price':price, 'quantity': quantity, 'courseTotal': courseTotal};
+        var date = $scope.newCourse.date;
+        var topic = $scope.newCourse.topic;
+        var hours = $scope.newCourse.hours;
+        var type = $scope.newCourse.type;
+        var instruction = $scope.newCourse.instruction;
+        var score = $scope.newCourse.score;
+        var course = {'date': date, 'topic':topic, 'hours': hours, 'instruction': instruction, 'score':score, 'type':type};
 
         $http.post('/api/members/' + memberID + '/course/', {'course': course})
             .success(function (data) {
@@ -123,11 +115,12 @@ app.controller('MemberCoursesController', function ($scope, $http, $routeParams)
                 console.log('Error: ' + data);
             });
         // membersService.insertMember(firstName, lastName, city);
-        $scope.newCourse.product = '';
-        $scope.newCourse.price = '';
-        $scope.newCourse.quantity = '';
-        $scope.newCourse.courseTotal = '';
-
+        $scope.newCourse.date = '';
+        $scope.newCourse.topic = '';
+        $scope.newCourse.hours = '';
+        $scope.newCourse.type = '';
+        $scope.newCourse.instruction = '';
+        $scope.newCourse.score = '';
     };
 
 });
@@ -160,14 +153,14 @@ app.controller('NavbarController', function ($scope, $location) {
 //It's used to track the courseby parameter and coursesTotal for a member. Put it here rather than duplicating
 //setCourse and courseby across multiple controllers.
 app.controller('CourseChildController', function ($scope, $http, $routeParams) {
-    $scope.courseby = 'product';
+    $scope.orderby = 'topic';
     $scope.reverse = false;
 
-    $scope.setCourse = function (courseby) {
-        if (courseby === $scope.courseby) {
+    $scope.setCourse = function (orderby) {
+        if (orderby === $scope.orderby) {
             $scope.reverse = !$scope.reverse;
         }
-        $scope.courseby = courseby;
+        $scope.orderby = orderby;
     };
 
 });
