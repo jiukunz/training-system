@@ -12,113 +12,113 @@
   #######################################################################*/
 
 
-//This controller retrieves data from the customersService and associates it with the $scope
-//The $scope is ultimately bound to the customers view
+//This controller retrieves data from the membersService and associates it with the $scope
+//The $scope is ultimately bound to the members view
 app.controller('CustomersController', function ($scope, $http) {
     //I like to have an init() for controllers that need to perform some initialization. Keeps things in
     //one place...not required though especially in the simple example below
-    $scope.customers = [];
+    $scope.members = [];
     init();
 
     function init() {
-        $http.get('/api/customers')
+        $http.get('/api/members')
             .success(function (data) {
-                $scope.customers = data;
+                $scope.members = data;
             })
             .error(function (data) {
                 console.log('Error: ' + data);
             });
-        // $scope.customers = customersService.getCustomers();
-        // console.log('second' + $scope.customers);
+        // $scope.members = membersService.getCustomers();
+        // console.log('second' + $scope.members);
     }
 
     $scope.insertCustomer = function () {
         var firstName = $scope.newCustomer.firstName;
         var lastName = $scope.newCustomer.lastName;
         var city = $scope.newCustomer.city;
-        var customer = {'firstName': firstName, 'lastName':lastName, 'city': city};
+        var member = {'firstName': firstName, 'lastName':lastName, 'city': city};
 
-        $http.post('/api/customers', customer)
+        $http.post('/api/members', member)
             .success(function (data) {
-                $scope.customers = data;
+                $scope.members = data;
             })
             .error(function (data) {
                 console.log('Error: ' + data);
             });
-        // customersService.insertCustomer(firstName, lastName, city);
+        // membersService.insertCustomer(firstName, lastName, city);
         $scope.newCustomer.firstName = '';
         $scope.newCustomer.lastName = '';
         $scope.newCustomer.city = '';
     };
 
     $scope.deleteCustomer = function (id) {
-        $http.delete('/api/customers/' + id)
+        $http.delete('/api/members/' + id)
             .success(function (data) {
-                $scope.customers = data;
+                $scope.members = data;
             })
             .error(function (data) {
                 console.log('Error: ' + data);
             });
-        // customersService.deleteCustomer(id);
+        // membersService.deleteCustomer(id);
     };
 });
 
-//This controller retrieves data from the customersService and associates it with the $scope
-//The $scope is bound to the order view
-app.controller('CustomerOrdersController', function ($scope, $http, $routeParams) {
-    $scope.customer = [];
-    $scope.ordersTotal = 0.00;
+//This controller retrieves data from the membersService and associates it with the $scope
+//The $scope is bound to the course view
+app.controller('CustomerCoursesController', function ($scope, $http, $routeParams) {
+    $scope.member = [];
+    $scope.coursesTotal = 0.00;
     
-    var customerID = $routeParams.customerID;
-    $http.get('/api/customers/' + customerID)
+    var memberID = $routeParams.memberID;
+    $http.get('/api/members/' + memberID)
         .success(function (data) {
-            $scope.customer = data;
-            if ($scope.customer && $scope.customer.orders) {
+            $scope.member = data;
+            if ($scope.member && $scope.member.courses) {
                 var total = 0.00;
-                for (var i = 0; i < $scope.customer.orders.length; i++) {
-                    var order = $scope.customer.orders[i];
-                    total += order.orderTotal;
+                for (var i = 0; i < $scope.member.courses.length; i++) {
+                    var course = $scope.member.courses[i];
+                    total += course.courseTotal;
                 }
-                $scope.ordersTotal = total;
+                $scope.coursesTotal = total;
             }    
         })
         .error(function (data) {
             console.log('Error: ' + data);
         });
 
-    $scope.insertOrder = function () {
+    $scope.insertCourse = function () {
         console.log("running");
-        var product = $scope.newOrder.product;
-        var price = $scope.newOrder.price;
-        var quantity = $scope.newOrder.quantity;
-        var orderTotal = $scope.newOrder.orderTotal;
-        var order = {'product': product, 'price':price, 'quantity': quantity, 'orderTotal': orderTotal};
+        var product = $scope.newCourse.product;
+        var price = $scope.newCourse.price;
+        var quantity = $scope.newCourse.quantity;
+        var courseTotal = $scope.newCourse.courseTotal;
+        var course = {'product': product, 'price':price, 'quantity': quantity, 'courseTotal': courseTotal};
 
-        $http.post('/api/customers/' + customerID + '/order/', {'order': order})
+        $http.post('/api/members/' + memberID + '/course/', {'course': course})
             .success(function (data) {
-                $scope.customer = data;
+                $scope.member = data;
             })
             .error(function (data) {
                 console.log('Error: ' + data);
             });
-        // customersService.insertCustomer(firstName, lastName, city);
-        $scope.newOrder.product = '';
-        $scope.newOrder.price = '';
-        $scope.newOrder.quantity = '';
-        $scope.newOrder.orderTotal = '';
+        // membersService.insertCustomer(firstName, lastName, city);
+        $scope.newCourse.product = '';
+        $scope.newCourse.price = '';
+        $scope.newCourse.quantity = '';
+        $scope.newCourse.courseTotal = '';
 
     };
 
 });
 
-//This controller retrieves data from the customersService and associates it with the $scope
-//The $scope is bound to the orders view
-app.controller('OrdersController', function ($scope, $http) {
-    $scope.customers = [];
+//This controller retrieves data from the membersService and associates it with the $scope
+//The $scope is bound to the courses view
+app.controller('CoursesController', function ($scope, $http) {
+    $scope.members = [];
 
-    $http.get('/api/customers')
+    $http.get('/api/members')
         .success(function (data) {
-            $scope.customers = data;
+            $scope.members = data;
         })
         .error(function (data) {
             console.log('Error: ' + data);
@@ -136,17 +136,17 @@ app.controller('NavbarController', function ($scope, $location) {
 });
 
 //This controller is a child controller that will inherit functionality from a parent
-//It's used to track the orderby parameter and ordersTotal for a customer. Put it here rather than duplicating 
-//setOrder and orderby across multiple controllers.
-app.controller('OrderChildController', function ($scope, $http, $routeParams) {
-    $scope.orderby = 'product';
+//It's used to track the courseby parameter and coursesTotal for a member. Put it here rather than duplicating
+//setCourse and courseby across multiple controllers.
+app.controller('CourseChildController', function ($scope, $http, $routeParams) {
+    $scope.courseby = 'product';
     $scope.reverse = false;
 
-    $scope.setOrder = function (orderby) {
-        if (orderby === $scope.orderby) {
+    $scope.setCourse = function (courseby) {
+        if (courseby === $scope.courseby) {
             $scope.reverse = !$scope.reverse;
         }
-        $scope.orderby = orderby;
+        $scope.courseby = courseby;
     };
 
 });

@@ -1,0 +1,17 @@
+﻿<div class="courses view">
+    <div class="container">
+        <header>
+            <h3>All Customer Courses</h3>
+        </header>
+        <div>
+            <div class="row">
+                <div class="span12" data-ng-repeat="member in members | courseBy:'lastName'">
+                    <div class="indent">
+                        <h4><a href="#/membercourses/{{member._id}}">{{ member.firstName + ' ' + member.lastName }}</a></h4>
+                    </div>
+                    <div data-ng-include="'/app/partials/coursesTable.html'" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

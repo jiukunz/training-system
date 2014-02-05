@@ -7,7 +7,7 @@ var mongoose = require('mongoose'); 					// mongoose for mongodb
 
 // configuration =================
 
-mongoose.connect('mongodb://localhost/customers'); 	// connect to mongoDB database on modulus.io
+mongoose.connect('mongodb://localhost/members'); 	// connect to mongoDB database on modulus.io
 
 app.configure(function () {
     app.use(express.static(__dirname + '/public/')); 		// set the static files location /public/img will be /img for users
@@ -17,97 +17,128 @@ app.configure(function () {
 });
 
 
-var Customer = mongoose.model('Customer', {
-    id: Number,
-    firstName: String,
-    lastName: String,
-    address: String,
-    city: String,
-    orders:[Order]
+var Member = mongoose.model('Member', {
+    id: String,
+    name: String,
+    gender: String,
+    woringYear: Number,
+    education: String,
+    major: String,
+    apartment: String,
+    job:String,
+    startDate: Date,
+    courses:[Course]
 });
 
-var Order = mongoose.model('Order', {
-    product: String,
-    price: Number,
-    quantity: Number,
-    orderTotal: Number
+var Course = mongoose.model('Course', {
+    date: Date,
+    topic: String,
+    hours: Number,
+    type: String,
+    instruction: String,
+    score: Number
 })
 
 /*
+ var members = [
+ {
+ name:"冀青", gender:"女", workingYears:3, id:"RL010",education:"大学本科",major:"导游",apartment:"人力资源部",job:"培训主管",startDate:"2011-1-11",
+ courses:[
+ {date:"2013-9-10",topic:"服务礼仪",hours:3,type:"讲授",instruction:"内训",score:3},
+ {date:"2013-10-2",topic:"服务礼仪",hours:2,type:"讲授",instruction:"内训",score:2}
+ ]
+ },
+ {
+ name:"季小哇", gender:"男", workingYears:2, id:"RL011",education:"硕士",major:"英语",apartment:"市场策划部",job:"培训主管",startDate:"2011-2-22",
+ courses:[
+ {date:"2013-9-10",topic:"服务礼仪",hours:3,type:"讲授",instruction:"内训",score:3},
+ {date:"2013-10-2",topic:"服务礼仪",hours:2,type:"讲授",instruction:"内训",score:2}
+ ]
+ }
+ ];
+ */
+
+/*
 id: 1, firstName: 'Lee', lastName: 'Carroll', address: '1234 Anywhere St.', city: 'Phoenix',
-            orders: [
-                { product: 'Basket', price: 29.99, quantity: 1, orderTotal: 29.99 },
-                { product: 'Yarn', price: 9.99, quantity: 1, orderTotal: 39.96 },
-                { product: 'Needes', price: 5.99, quantity: 1, orderTotal: 5.99 }
+            courses: [
+                { product: 'Basket', price: 29.99, quantity: 1, courseTotal: 29.99 },
+                { product: 'Yarn', price: 9.99, quantity: 1, courseTotal: 39.96 },
+                { product: 'Needes', price: 5.99, quantity: 1, courseTotal: 5.99 }
             ]
             */
 // routes
 
-app.get('/api/customers', function (req, res) {
-    Customer.find(function (err, customers) {
+
+//var a = {"member":{
+//    "name":"冀青", "gender":"女", "workingYears":3, "id":"RL010","education":"大学本科","major":"导游","apartment":"人力资源部","job":"培训主管","startDate":"2011-1-11",
+//        "courses":[
+//        {"date":"2013-9-10","topic":"服务礼仪","hours":3,"type":"讲授","instruction":"内训","score":3},
+//        {"date":"2013-10-2","topic":"服务礼仪","hours":2,"type":"讲授","instruction":"内训","score":2}
+//    ]
+//}}
+
+app.get('/api/members', function (req, res) {
+    Member.find(function (err, members) {
         if (err)
             res.send(err)
-        res.json(customers);
+        res.json(members);
     });
 });
 
-app.post('/api/customers', function (req, res) {
-    Customer.create({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        city: req.body.city
-    }, function (err, todo) {
+app.post('/api/members', function (req, res) {
+    var member = req.body.member;
+    Member.create(member, function (err, member) {
         if (err){
             res.send(err);
-        }            
-        Customer.find(function (err, customers) {
+        }
+        Member.find(function (err, members) {
             if (err)
                 res.send(err)
-            res.json(customers);
+            res.json(members);
         });
     });
 });
 
-app.post('/api/customers/:customerID/order', function(req, res) {
-    var id = req.params.customerID;
-    var order = req.body.order;
-    Customer.findById(id, function (err, customer) {
+app.post('/api/members/:memberID/course', function(req, res) {
+    var id = req.params.memberID;
+    var course = req.body.course;
+    Member.findById(id, function (err, member) {
         if (err){
             res.send(err);
         } 
-        customer.orders.push(order);
-        customer.save();
-        res.json(customer);
+        member.courses.push(course);
+        member.save();
+        res.json(member);
     });
 
 });
 
-app.delete('/api/customers/:id', function (req, res) {
+app.delete('/api/members/:id', function (req, res) {
     var id = req.params.id;
-    Customer.remove({
+    Member.remove({
         '_id': id
-    }, function (err, customer) {
+    }, function (err, member) {
         if (err){
             res.send(err);
         }
-        Customer.find(function (err, customers) {
+        Member.find(function (err, members) {
             if (err)
                 res.send(err)
-            res.json(customers);
+            res.json(members);
         });
     });
 });
 
-app.get('/api/customers/:id', function (req, res) {
+app.get('/api/members/:id', function (req, res) {
     var id = req.params.id;
-    Customer.findById(id, function (err, customer) {
+    Member.findById(id, function (err, member) {
         if (err){
             res.send(err);
         }
-        res.json(customer);
+        res.json(member);
     });
 });
-
+//
 app.get('*', function(req, res) {
     // res.send("hello");
     res.sendfile('./public/CustomerManagementApp.html'); // load the single view file (angular will handle the page changes on the front-end)

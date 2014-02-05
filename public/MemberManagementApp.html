@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
-<html data-ng-app="customersApp">
+<html data-ng-app="membersApp">
 <head>
     <title>Customer Manager</title>
     <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
-    <link href="css/customerManagementStyles.css" rel="stylesheet" />
+    <link href="css/memberManagementStyles.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -15,7 +15,7 @@
                     <img src="imgs/people.png" alt="logo"> Customer Manager
                 </a>
                 <ul class="nav nav-pills" data-ng-controller="NavbarController">
-                    <li data-ng-class="{'active':getClass('/customers')}"><a href="#/customers">Customers</a></li>
+                    <li data-ng-class="{'active':getClass('/members')}"><a href="#/members">Customers</a></li>
                     <li data-ng-class="{'active':getClass('/orders')}"><a href="#/orders">Orders</a></li>
                 </ul>
             </div>
@@ -60,7 +60,7 @@
     <!-- App libs -->
     <script src="app/app.js"></script>
     <script src="app/controllers/controllers.js"></script>
-    <script src="app/services/customersService.js"></script>
+    <script src="app/services/membersService.js"></script>
     <script src="app/directives/animatedView.js"></script>
 </body>
 </html>

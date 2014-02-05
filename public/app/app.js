@@ -19,29 +19,29 @@
 
   #######################################################################*/
 
-var app = angular.module('customersApp', []);
+var app = angular.module('membersApp', []);
 
 //This configures the routes and associates each route with a view and a controller
 app.config(function ($routeProvider) {
     $routeProvider
-        .when('/customers',
+        .when('/members',
             {
                 controller: 'CustomersController',
-                templateUrl: '/app/partials/customers.html'
+                templateUrl: '/app/partials/members.html'
             })
-        //Define a route that has a route parameter in it (:customerID)
-        .when('/customerorders/:customerID',
+        //Define a route that has a route parameter in it (:memberID)
+        .when('/membercourses/:memberID',
             {
-                controller: 'CustomerOrdersController',
-                templateUrl: '/app/partials/customerOrders.html'
+                controller: 'CustomerCoursesController',
+                templateUrl: '/app/partials/memberCourses.html'
             })
-        //Define a route that has a route parameter in it (:customerID)
-        .when('/orders',
+        //Define a route that has a route parameter in it (:memberID)
+        .when('/courses',
             {
-                controller: 'OrdersController',
-                templateUrl: '/app/partials/orders.html'
+                controller: 'CoursesController',
+                templateUrl: '/app/partials/courses.html'
             })
-        .otherwise({ redirectTo: '/customers' });
+        .otherwise({ redirectTo: '/members' });
 });
 
 

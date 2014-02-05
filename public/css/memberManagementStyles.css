@@ -45,17 +45,17 @@
     margin-left:20px;
 }
 
-.ordersTable {
+.coursesTable {
     width:800px;
     margin-left:20px;
 }
 
-.orders th, .customerOrders th {
+.courses th, .memberOrders th {
     width:25%;
     cursor: pointer;
 }
 
-.ordersTable tr:first-child th {
+.coursesTable tr:first-child th {
     background-color: #006dcc;
     color: #fff;
     font-weight: bold;

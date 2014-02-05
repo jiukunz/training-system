@@ -1,0 +1,39 @@
+﻿<table class="table table-hover table-striped table-condensed table-bcourseed coursesTable" data-ng-controller="CourseChildController">
+    <thead>
+        <tr>
+            <th data-ng-click="setCourse('product')">Product</th>
+            <th data-ng-click="setCourse('quantity')">Quantity</th>
+            <th data-ng-click="setCourse('price')">Unit Price</th>
+            <th data-ng-click="setCourse('courseTotal')">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-hide="member.courses || member.courses.length > 0" class="error">
+            <td colspan="4">
+                <div class="text-center"><strong>No courses found</strong></div>
+            </td>
+        </tr>
+        <tr data-ng-repeat="course in member.courses | courseBy:courseby:reverse">
+            <td>
+                {{ course.product }}
+            </td>
+            <td>
+                {{ course.quantity }}
+            </td>
+            <td>
+                 {{ course.price | currency }}
+            </td>
+            <td>
+                {{ course.courseTotal | currency }}
+            </td>
+        </tr>
+        <tr class="info">
+            <td colspan="3">
+                &nbsp;
+            </td>
+            <td>
+                <strong>{{ coursesTotal | currency }}</strong>
+            </td>
+        </tr>
+    </tbody>
+</table>
