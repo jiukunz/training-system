@@ -14,7 +14,7 @@
 
 //This controller retrieves data from the membersService and associates it with the $scope
 //The $scope is ultimately bound to the members view
-app.controller('CustomersController', function ($scope, $http) {
+app.controller('MembersController', function ($scope, $http) {
     //I like to have an init() for controllers that need to perform some initialization. Keeps things in
     //one place...not required though especially in the simple example below
     $scope.members = [];
@@ -28,30 +28,51 @@ app.controller('CustomersController', function ($scope, $http) {
             .error(function (data) {
                 console.log('Error: ' + data);
             });
-        // $scope.members = membersService.getCustomers();
+        // $scope.members = membersService.getMembers();
         // console.log('second' + $scope.members);
     }
 
-    $scope.insertCustomer = function () {
-        var firstName = $scope.newCustomer.firstName;
-        var lastName = $scope.newCustomer.lastName;
-        var city = $scope.newCustomer.city;
-        var member = {'firstName': firstName, 'lastName':lastName, 'city': city};
+    /*
+     {
+     name:"冀青", gender:"女", workingYears:3, id:"RL010",education:"大学本科",major:"导游",apartment:"人力资源部",job:"培训主管",startDate:"2011-1-11",
+     courses:[
+     {date:"2013-9-10",topic:"服务礼仪",hours:3,type:"讲授",instruction:"内训",score:3},
+     {date:"2013-10-2",topic:"服务礼仪",hours:2,type:"讲授",instruction:"内训",score:2}
+     ]
+     }
+     */
+    $scope.insertMember = function () {
+        var name = $scope.newMember.name;
+        var gender = $scope.newMember.gender;
+        var workingYears = $scope.newMember.workingYears;
+        var id = $scope.newMember.id;
+        var education = $scope.newMember.education;
+        var major = $scope.newMember.major;
+        var apartment = $scope.newMember.apartment;
+        var job = $scope.newMember.job;
+        var startDate = $scope.newMember.startDate;
+        var member = {"name":name,"gender":gender,"workingYears":workingYears,"id":id,"education":education,"major":major,"apartment":apartment,"job":job,"startDate":startDate};
 
-        $http.post('/api/members', member)
+        $http.post('/api/members', {'member': member})
             .success(function (data) {
                 $scope.members = data;
             })
             .error(function (data) {
                 console.log('Error: ' + data);
             });
-        // membersService.insertCustomer(firstName, lastName, city);
-        $scope.newCustomer.firstName = '';
-        $scope.newCustomer.lastName = '';
-        $scope.newCustomer.city = '';
+        // membersService.insertMember(firstName, lastName, city);
+        $scope.newMember.name = '';
+        $scope.newMember.gender = '';
+        $scope.newMember.workingYears = '';
+        $scope.newMember.id = '';
+        $scope.newMember.education = '';
+        $scope.newMember.major = '';
+        $scope.newMember.apartment = '';
+        $scope.newMember.job = '';
+        $scope.newMember.startDate = '';
     };
 
-    $scope.deleteCustomer = function (id) {
+    $scope.deleteMember = function (id) {
         $http.delete('/api/members/' + id)
             .success(function (data) {
                 $scope.members = data;
@@ -59,13 +80,13 @@ app.controller('CustomersController', function ($scope, $http) {
             .error(function (data) {
                 console.log('Error: ' + data);
             });
-        // membersService.deleteCustomer(id);
+        // membersService.deleteMember(id);
     };
 });
 
 //This controller retrieves data from the membersService and associates it with the $scope
 //The $scope is bound to the course view
-app.controller('CustomerCoursesController', function ($scope, $http, $routeParams) {
+app.controller('MemberCoursesController', function ($scope, $http, $routeParams) {
     $scope.member = [];
     $scope.coursesTotal = 0.00;
     
@@ -101,7 +122,7 @@ app.controller('CustomerCoursesController', function ($scope, $http, $routeParam
             .error(function (data) {
                 console.log('Error: ' + data);
             });
-        // membersService.insertCustomer(firstName, lastName, city);
+        // membersService.insertMember(firstName, lastName, city);
         $scope.newCourse.product = '';
         $scope.newCourse.price = '';
         $scope.newCourse.quantity = '';

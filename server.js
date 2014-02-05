@@ -141,7 +141,7 @@ app.get('/api/members/:id', function (req, res) {
 //
 app.get('*', function(req, res) {
     // res.send("hello");
-    res.sendfile('./public/CustomerManagementApp.html'); // load the single view file (angular will handle the page changes on the front-end)
+    res.sendfile('./public/MemberManagementApp.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
 
 // listen (start app with node server.js) ======================================

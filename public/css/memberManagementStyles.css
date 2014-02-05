@@ -11,7 +11,7 @@
 .card {
     background-color:#efefef;
     border: 1px solid black;
-    height:200px;
+    height:120px;
     width: 225px;
     margin-bottom: 20px;
 }
@@ -62,7 +62,7 @@
 }
 
 
-#submitCustomer {
+#submitMember {
     margin-left:50px;
     margin-top: -8px;
 }

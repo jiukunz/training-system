@@ -26,13 +26,13 @@ app.config(function ($routeProvider) {
     $routeProvider
         .when('/members',
             {
-                controller: 'CustomersController',
+                controller: 'MembersController',
                 templateUrl: '/app/partials/members.html'
             })
         //Define a route that has a route parameter in it (:memberID)
         .when('/membercourses/:memberID',
             {
-                controller: 'CustomerCoursesController',
+                controller: 'MemberCoursesController',
                 templateUrl: '/app/partials/memberCourses.html'
             })
         //Define a route that has a route parameter in it (:memberID)

@@ -1,27 +1,59 @@
 ﻿<div class="members view">
     <div class="container">
         <header>
-            <h3>Customers</h3>
+            <h3>员工</h3>
         </header>
         <div class="row">
             <div class="span3">
-                First Name:
+                姓名:
                 <br />
-                <input data-ng-model="newCustomer.firstName" type="text" placeholder="First Name">
+                <input data-ng-model="newMember.name" type="text" placeholder="姓名">
             </div>
             <div class="span3">
-                Last Name:
+                性别:
                 <br />
-                <input data-ng-model="newCustomer.lastName" type="text" placeholder="Last Name">
+                <input data-ng-model="newMember.gender" type="text" placeholder="性别">
             </div>
+            <div class="span3">
+                工作年限:
+                <br />
+                <input data-ng-model="newMember.workingYears" type="text" placeholder="工作年限">
+            </div>
+            <div class="span3">
+                员工编号:
+                <br />
+                <input data-ng-model="newMember.id" type="text" placeholder="员工编号">
+            </div>
+            <div class="span3">
+                教育程度:
+                <br />
+                <input data-ng-model="newMember.education" type="text" placeholder="教育程度">
+            </div>
+            <div class="span3">
+                专业:
+                <br />
+                <input data-ng-model="newMember.major" type="text" placeholder="专业">
+            </div>
+            <div class="span3">
+                部门:
+                <br />
+                <input data-ng-model="newMember.apartment" type="text" placeholder="部门">
+            </div>
+            <div class="span3">
+                职位:
+                <br />
+                <input data-ng-model="newMember.job" type="text" placeholder="职位">
+            </div>
+
             <div class="span6">
-                City:
+                入职时间:
                 <br />
-                <input data-ng-model="newCustomer.city" type="text" placeholder="Customer City">
-                <button id="submitCustomer" class="btn btn-primary" type="button"
-                    data-ng-disabled="!newCustomer.firstName || !newCustomer.lastName || !newCustomer.city"
-                    data-ng-click="insertCustomer()">Add Customer</button>
+                <input data-ng-model="newMember.startDate" type="text" placeholder="入职时间">
+                <button id="submitMember" class="btn btn-primary" type="button"
+                    data-ng-disabled="!newMember.name"
+                    data-ng-click="insertMember()">添加员工</button>
             </div>
+            <!--|| !newMember.gender || !newMember.id || !newMember.education || !newMember.apartment || !newMember.job"-->
         </div>
         <br /><br />
         <div class="row">
@@ -32,11 +64,12 @@
         <br/><br/>
         <div>
             <div class="row cardContainer">
-                <div class="span3 card" data-ng-repeat="member in members | filter:filterWord | courseBy:'lastName'">
-                    <div>{{member._id}}</div>
-                    <button class="btn close cardClose" data-ng-click="deleteCustomer(member._id)">&times;</button>
-                    <div class="cardHeader">{{member.firstName + ' ' + member.lastName}}</div>
-                    <div class="cardBody">{{member.city}}</div>
+                <div class="span3 card" data-ng-repeat="member in members | filter:filterWord | orderBy:'apartment'">
+                    <!--<div>{{member._id}}</div>-->
+                    <button class="btn close cardClose" data-ng-click="deleteMember(member._id)">&times;</button>
+                    <div class="cardHeader">{{member.name}}</div>
+                    <div class="cardBody">员工编号:{{member.id}}</div>
+                    <div class="cardBody">部门:{{member.apartment}}</div>
                     <a href="#/membercourses/{{member._id}}" class="cardBody btn-link">View {{ member.courses.length }} Courses</a>
                 </div>
             </div>
