@@ -12,7 +12,8 @@ var flash = require('connect-flash')
 
 // configuration =================
 
-mongoose.connect('mongodb://localhost/members'); 	// connect to mongoDB database on modulus.io
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/members';
+mongoose.connect(mongoUri); 	// connect to mongoDB database on modulus.io
 
 app.configure(function () {
     app.use(express.static(__dirname + '/public/')); 		// set the static files location /public/img will be /img for users
@@ -27,7 +28,7 @@ app.configure(function () {
 });
 
 var users = [
-    { id: 1, username: 'jq', password: '1' }
+    { id: 1, username: 'jq', password: '846315' }
 ];
 
 function findByUsername(username, fn) {

@@ -1,14 +1,17 @@
 {
-    "name"         : "node-todo",
-    "version"      : "0.0.1",
-    "description"  : "Simple todo application.",
+    "name"         : "training-system",
+    "version"      : "0.7.0",
+    "description"  : "Daminggong training system",
+    "author"       : "J.K <jiukunz@gmail.com>",
     "main"         : "server.js",
-    "author"       : "jiukun",
     "dependencies" : {
         "express"    : "~3.4.4",
         "mongoose"   : "~3.6.2",
         "passport"   : "",
         "passport-local": "",
         "connect-flash" : ""
+    },
+    "engines": {
+        "node": "0.10.x"
     }
 }
