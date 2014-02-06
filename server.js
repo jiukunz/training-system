@@ -3,6 +3,8 @@
 // set up ========================
 var express = require('express');
 var app = express(); 								// create our app w/ express
+var http = require('http');
+var server = http.createServer(app);
 var mongoose = require('mongoose');					// mongoose for mongodb
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
@@ -16,6 +18,7 @@ var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb:/
 mongoose.connect(mongoUri); 	// connect to mongoDB database on modulus.io
 
 app.configure(function () {
+    app.set('port', process.env.PORT || 8080);
     app.use(express.static(__dirname + '/public/')); 		// set the static files location /public/img will be /img for users
     app.use(express.logger('dev')); 						// log every request to the console
     app.use(express.bodyParser()); 							// pull information from html in POST
@@ -250,6 +253,7 @@ app.get('/logout', function(req, res){
 });
 
 // listen (start app with node server.js) ======================================
-app.listen(8080);
-console.log("App listening on port 8080");
+server.listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + app.get('port'));
+});
 
