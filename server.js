@@ -3,7 +3,9 @@
 // set up ========================
 var express = require('express');
 var app = express(); 								// create our app w/ express
-var mongoose = require('mongoose'); 					// mongoose for mongodb
+var mongoose = require('mongoose');					// mongoose for mongodb
+var Schema = mongoose.Schema;
+var ObjectId = Schema.ObjectId;
 var passport = require('passport')
     , LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash')
@@ -25,7 +27,7 @@ app.configure(function () {
 });
 
 var users = [
-    { id: 1, username: 'jq', password: '846315' }
+    { id: 1, username: 'jq', password: '1' }
 ];
 
 function findByUsername(username, fn) {
@@ -74,7 +76,9 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-var Member   = mongoose.model('Member', {
+
+
+var memberSchema   = new Schema({
     id: String,
     name: String,
     gender: String,
@@ -83,18 +87,23 @@ var Member   = mongoose.model('Member', {
     major: String,
     apartment: String,
     job:String,
-    startDate: Date,
+    startDate: String,
     courses:[Course]
 });
 
-var Course = mongoose.model('Course', {
-    date: Date,
+var Member   = mongoose.model('Member', memberSchema);
+
+var courseSchema = new Schema({
+    _id: Schema.Types.ObjectId,
+    date: String,
     topic: String,
     hours: Number,
     type: String,
     instruction: String,
     score: Number
 })
+
+var Course = mongoose.model('Course', courseSchema);
 
 /*
  var members = [
@@ -159,6 +168,7 @@ app.post('/api/members', ensureAuthenticated, function (req, res) {
 app.post('/api/members/:memberID/course',ensureAuthenticated, function(req, res) {
     var id = req.params.memberID;
     var course = req.body.course;
+    course._id = new mongoose.Types.ObjectId;
     Member.findById(id, function (err, member) {
         if (err){
             res.send(err);
@@ -168,6 +178,24 @@ app.post('/api/members/:memberID/course',ensureAuthenticated, function(req, res)
         res.json(member);
     });
 
+});
+
+
+app.delete('/api/members/:memberID/:courseID', ensureAuthenticated, function (req, res) {
+    var memberId = req.params.memberID;
+    var courseId = req.params.courseID;
+    Member.findById(memberId, function (err, member) {
+        if (err){
+            res.send(err);
+        }
+        for(var i = 0;i<member.courses.length;i++){
+            if(member.courses[i]._id == courseId ){
+                member.courses.splice(i, 1);
+            }
+        }
+        member.save();
+        res.json(member);
+    });
 });
 
 app.delete('/api/members/:id', ensureAuthenticated, function (req, res) {

@@ -11,7 +11,7 @@
     </thead>
     <tbody>
         <tr data-ng-hide="member.courses || member.courses.length > 0" class="error">
-            <td colspan="4">
+            <td colspan="7">
                 <div class="text-center"><strong>No courses found</strong></div>
             </td>
         </tr>
@@ -33,6 +33,9 @@
             </td>
             <td>
                 {{ course.date }}
+            </td>
+            <td>
+                <button class="btn close cardClose" data-ng-click="deleteCourse(member._id,course._id)">&times;</button>
             </td>
         </tr>
     </tbody>

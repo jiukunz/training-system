@@ -52,7 +52,6 @@ app.controller('MembersController', function ($scope, $http) {
         var job = $scope.newMember.job;
         var startDate = $scope.newMember.startDate;
         var member = {"name":name,"gender":gender,"workingYears":workingYears,"id":id,"education":education,"major":major,"apartment":apartment,"job":job,"startDate":startDate};
-
         $http.post('/api/members', {'member': member})
             .success(function (data) {
                 $scope.members = data;
@@ -109,6 +108,7 @@ app.controller('MemberCoursesController', function ($scope, $http, $routeParams)
 
         $http.post('/api/members/' + memberID + '/course/', {'course': course})
             .success(function (data) {
+                console.log( $scope.member);
                 $scope.member = data;
             })
             .error(function (data) {
@@ -123,6 +123,16 @@ app.controller('MemberCoursesController', function ($scope, $http, $routeParams)
         $scope.newCourse.score = '';
     };
 
+    $scope.deleteCourse = function (memberID,courseID) {
+        $http.delete('/api/members/' + memberID +'/' + courseID)
+            .success(function (data) {
+                $scope.member = data;
+                console.log($scope.member);
+            })
+            .error(function (data) {
+                console.log('Error: ' + data);
+            });
+    };
 });
 
 //This controller retrieves data from the membersService and associates it with the $scope
@@ -137,6 +147,8 @@ app.controller('CoursesController', function ($scope, $http) {
         .error(function (data) {
             console.log('Error: ' + data);
         });
+
+
 });
 
 app.controller('NavbarController', function ($scope, $location) {
@@ -162,5 +174,4 @@ app.controller('CourseChildController', function ($scope, $http, $routeParams) {
         }
         $scope.orderby = orderby;
     };
-
 });
