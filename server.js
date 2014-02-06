@@ -25,8 +25,7 @@ app.configure(function () {
 });
 
 var users = [
-    { id: 1, username: 'jiqing', password: '846315ea' }
-    , { id: 2, username: 'joe', password: 'birthday' }
+    { id: 1, username: 'jq', password: '846315' }
 ];
 
 function findByUsername(username, fn) {
@@ -75,7 +74,7 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-var Member = mongoose.model('Member', {
+var Member   = mongoose.model('Member', {
     id: String,
     name: String,
     gender: String,
@@ -135,7 +134,7 @@ id: 1, firstName: 'Lee', lastName: 'Carroll', address: '1234 Anywhere St.', city
 //    ]
 //}}
 
-app.get('/api/members', function (req, res) {
+app.get('/api/members',ensureAuthenticated, function (req, res) {
     Member.find(function (err, members) {
         if (err)
             res.send(err)
@@ -143,7 +142,7 @@ app.get('/api/members', function (req, res) {
     });
 });
 
-app.post('/api/members', function (req, res) {
+app.post('/api/members', ensureAuthenticated, function (req, res) {
     var member = req.body.member;
     Member.create(member, function (err, member) {
         if (err){
@@ -157,7 +156,7 @@ app.post('/api/members', function (req, res) {
     });
 });
 
-app.post('/api/members/:memberID/course', function(req, res) {
+app.post('/api/members/:memberID/course',ensureAuthenticated, function(req, res) {
     var id = req.params.memberID;
     var course = req.body.course;
     Member.findById(id, function (err, member) {
@@ -171,7 +170,7 @@ app.post('/api/members/:memberID/course', function(req, res) {
 
 });
 
-app.delete('/api/members/:id', function (req, res) {
+app.delete('/api/members/:id', ensureAuthenticated, function (req, res) {
     var id = req.params.id;
     Member.remove({
         '_id': id
@@ -187,7 +186,7 @@ app.delete('/api/members/:id', function (req, res) {
     });
 });
 
-app.get('/api/members/:id', function (req, res) {
+app.get('/api/members/:id', ensureAuthenticated, function (req, res) {
     var id = req.params.id;
     Member.findById(id, function (err, member) {
         if (err){
